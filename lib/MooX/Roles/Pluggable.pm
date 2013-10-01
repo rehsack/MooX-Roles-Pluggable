@@ -105,6 +105,20 @@ Default for require is 1.
 
 =back
 
+=head2 USE WITH CAUTION
+
+Remember that using a module like this which automatically injects code
+into your existing and running and (hopefully) well tested programs
+and/or modules can be dangerous and should be avoided whenever possible.
+
+=head2 USE ANYWAY
+
+On the other hand, when you're allowing plugins being loaded by your
+code, it's probably faster compiling the chain of responsibility once than
+doing it at runtime again and again. Allowing plugins changing the
+behaviour of your code anyway. When that's the intension, this is your
+module.
+
 =head1 AUTHOR
 
 Jens Rehsack, C<< <rehsack at cpan.org> >>
