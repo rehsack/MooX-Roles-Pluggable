@@ -6,7 +6,7 @@ use warnings FATAL => 'all';
 
 require Module::Pluggable::Object;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 my %DEFAULT_OPTIONS = (
     search_path => undef,
