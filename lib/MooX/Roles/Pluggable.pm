@@ -9,38 +9,38 @@ require Module::Pluggable::Object;
 our $VERSION = '0.002';
 
 my %DEFAULT_OPTIONS = (
-    search_path => undef,
-    require => 1,
-);
+                        search_path => undef,
+                        require     => 1,
+                      );
 
 my %role_lists;
-
 
 use Data::Dumper;
 
 sub _roles
 {
-    defined($role_lists{$_[0]->{search_path}}) and return @{$role_lists{$_[0]->{search_path}}};
-    my @plugins = Module::Pluggable::Object->new(%{$_[0]})->plugins();
-    my @roles = grep {
-	my @target_isa;
-	{ no strict 'refs'; @target_isa = @{$_ . "::ISA"} };
-	0 == scalar @target_isa;
+    defined( $role_lists{ $_[0]->{search_path} } )
+      and return @{ $role_lists{ $_[0]->{search_path} } };
+    my @plugins = Module::Pluggable::Object->new( %{ $_[0] } )->plugins();
+    my @roles   = grep {
+        my @target_isa;
+        { no strict 'refs'; @target_isa = @{ $_ . "::ISA" } };
+        0 == scalar @target_isa;
     } @plugins;
-    $role_lists{$_[0]->{search_path}} = \@roles;
+    $role_lists{ $_[0]->{search_path} } = \@roles;
 }
 
 sub _inject_roles
 {
-    my ($target, $options) = @_;
-    my $with   = $target->can('with') or return; # neither a class nor a role ...
+    my ( $target, $options ) = @_;
+    my $with = $target->can('with') or return;    # neither a class nor a role ...
     my $roles = _roles($options);
 
     my $apply_modifiers = sub {
         foreach my $role (@$roles)
-	{
-	    $with->($role);
-	}
+        {
+            $with->($role);
+        }
     };
     $apply_modifiers->();
 }
@@ -50,9 +50,9 @@ sub import
     my ( undef, @import ) = @_;
     my $target = caller;
     my %options = ( %DEFAULT_OPTIONS, @import );
-    defined($options{search_path}) or $options{search_path} = "${target}::Role";
+    defined( $options{search_path} ) or $options{search_path} = "${target}::Role";
 
-    _inject_roles($target, \%options);
+    _inject_roles( $target, \%options );
 
     return;
 }
@@ -174,4 +174,4 @@ See L<http://dev.perl.org/licenses/> for more information.
 
 =cut
 
-1; # End of MooX::Roles::Pluggable
+1;    # End of MooX::Roles::Pluggable
