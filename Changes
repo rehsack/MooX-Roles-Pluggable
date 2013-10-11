@@ -1,4 +1,8 @@
 Revision history for Perl module MooX::Roles::Pluggable
 
-0.001 2013-10-01
+0.002	2013-10-11
+    - avoid trying role injections into non-classes or roles (thanks to
+      Thomas Klausner <wiz@netbsd.org>)
+
+0.001	2013-10-01
     - First version, released on an unsuspecting world.

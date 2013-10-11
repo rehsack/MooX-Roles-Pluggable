@@ -33,8 +33,8 @@ sub _roles
 sub _inject_roles
 {
     my ($target, $options) = @_;
+    my $with   = $target->can('with') or return; # neither a class nor a role ...
     my $roles = _roles($options);
-    my $with   = $target->can('with');
 
     my $apply_modifiers = sub {
         foreach my $role (@$roles)
