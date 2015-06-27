@@ -15,12 +15,10 @@ my %DEFAULT_OPTIONS = (
 
 my %role_lists;
 
-use Data::Dumper;
-
 sub _roles
 {
     defined( $role_lists{ $_[0]->{search_path} } )
-      and return @{ $role_lists{ $_[0]->{search_path} } };
+      and return $role_lists{ $_[0]->{search_path} };
     my @plugins = Module::Pluggable::Object->new( %{ $_[0] } )->plugins();
     my @roles   = grep {
         my @target_isa;
@@ -36,13 +34,7 @@ sub _inject_roles
     my $with = $target->can('with') or return;    # neither a class nor a role ...
     my $roles = _roles($options);
 
-    my $apply_modifiers = sub {
-        foreach my $role (@$roles)
-        {
-            $with->($role);
-        }
-    };
-    $apply_modifiers->();
+    $with->($_) foreach (@$roles);
 }
 
 sub import
