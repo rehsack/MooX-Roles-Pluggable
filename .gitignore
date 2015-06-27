@@ -6,6 +6,7 @@ Build
 !Build/
 Build.bat
 .last_cover_stats
+MANIFEST
 Makefile
 Makefile.old
 META.*
